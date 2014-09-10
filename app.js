@@ -48,7 +48,7 @@ function randomWalk(name, start, variation) {
 
   data[name] += (Math.random() * variation) - (variation / 2);
 
-  console.log('Writing ' + name + " :" + data[name]);
+//  console.log('Writing ' + name + " :" + data[name]);
 
   if (Math.round(data[name] % 5) != 0)  {
     client.writePoint(name, { time: new Date(), value: data[name] }, function(err) {
@@ -70,7 +70,7 @@ function appStatus(host, start, variation) {
 
   data[name] += (Math.random() * variation) - (variation / 2);
 
-  console.log('Writing ' + name + " :" + data[name]);
+  //console.log('Writing ' + name + " :" + data[name]);
 
   client.writePoint("app.status", { time: new Date(), value: data[name], host: host }, function(err) {
     if (err) {
