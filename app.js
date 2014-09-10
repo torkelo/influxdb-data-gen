@@ -9,6 +9,22 @@ var client = influx({
 
 var data = {};
 
+client.createDatabase('site', function() {
+  console.log('creating database site', arguments);
+});
+
+client.createDatabase('graphite', function() {
+  console.log('creating database graphite', arguments);
+});
+
+client.createUser('site', 'grafana', 'grafana', function() {
+  console.log('creating user grafana for db site', arguments);
+});
+
+client.createUser('graphite', 'grafana', 'grafana', function() {
+  console.log('creating user grafana for db graphite', arguments);
+});
+
 setInterval(function() {
 
   //randomWalk('request_count', 1000, 100);
