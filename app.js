@@ -2,8 +2,8 @@ var influx = require('influx');
 var client = influx({
     host: 'localhost',
     port: 8086,
-    username: 'test',
-    password: 'test',
+    username: 'root',
+    password: 'root',
     database: 'site'
 });
 
@@ -11,7 +11,7 @@ var data = {};
 
 setInterval(function() {
 
-  randomWalk('request_count', 1000, 100);
+  //randomWalk('request_count', 1000, 100);
   randomWalk('request_count2', 1000, 100);
   randomWalk('request_count3', 1000, 100);
 
@@ -23,7 +23,7 @@ setInterval(function() {
   appStatus('eu1-web-03', 1000, 100);
 
 
-}, 1000);
+}, 10000);
 
 function randomWalk(name, start, variation) {
   if (!data[name]) {
@@ -34,11 +34,16 @@ function randomWalk(name, start, variation) {
 
   console.log('Writing ' + name + " :" + data[name]);
 
-  client.writePoint(name, { time: new Date(), value: data[name] }, function(err) {
-    if (err) {
-      console.log('InfluxDB Error', err);
-    }
-  });
+  if (Math.round(data[name] % 5) != 0)  {
+    client.writePoint(name, { time: new Date(), value: data[name] }, function(err) {
+      if (err) {
+        console.log('InfluxDB Error', err);
+      }
+    });
+  }
+  else {
+    console.log("skip");
+  }
 }
 
 function appStatus(host, start, variation) {
