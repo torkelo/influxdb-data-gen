@@ -27,7 +27,7 @@ client.createUser('graphite', 'grafana', 'grafana', function() {
 
 setInterval(function() {
 
-  //randomWalk('request_count', 1000, 100);
+  randomWalk('request_count', 1000, 100);
   randomWalk('request_count2', 1000, 100);
   randomWalk('request_count3', 1000, 100);
 
@@ -48,18 +48,9 @@ function randomWalk(name, start, variation) {
 
   data[name] += (Math.random() * variation) - (variation / 2);
 
-//  console.log('Writing ' + name + " :" + data[name]);
-
-  if (Math.round(data[name] % 5) != 0)  {
-    client.writePoint(name, { time: new Date(), value: data[name] }, function(err) {
-      if (err) {
-        console.log('InfluxDB Error', err);
-      }
-    });
-  }
-  else {
-    console.log("skip");
-  }
+  client.writePoint(name, { time: new Date(), value: data[name] }, function(err) {
+    if (err) { console.log('InfluxDB Error', err); }
+  });
 }
 
 function appStatus(host, start, variation) {
